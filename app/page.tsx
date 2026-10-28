@@ -1,6 +1,7 @@
 import { CONFIG } from "@/lib/config";
 import Cursor from "@/components/Cursor";
 import Hero from "@/components/Hero";
+import ReelMarquee from "@/components/ReelMarquee";
 import About from "@/components/About";
 import Timeline from "@/components/Timeline";
 import Stats from "@/components/Stats";
@@ -19,6 +20,7 @@ export default function Home() {
         <About config={CONFIG} />
         <Timeline config={CONFIG} />
         <Stats stats={CONFIG.stats} />
+        <ReelMarquee config={CONFIG} />
         <WorkSections work={CONFIG.work} />
         <Testimonials lead={CONFIG.testimonialsLead} items={CONFIG.testimonials} />
       </div>

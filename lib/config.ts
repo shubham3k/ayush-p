@@ -131,26 +131,6 @@ export const CONFIG = {
      thumb: optional image (YouTube links get their thumbnail automatically). */
   work: [
     {
-      id: "work-short",
-      label: "Short-form",
-      title: "Short-form content",
-      lead: "Reels, Shorts and TikToks cut for retention: hooks, captions, pacing and sound.",
-      v9: true,
-      n: 4,
-      c: "--a3",
-      items: [
-        "https://www.instagram.com/reel/Dc-uXm_I_8_/",
-        "https://www.instagram.com/reel/DafvGWEpuZ8/",
-        "https://www.instagram.com/reel/DV-9c2AE_lD/",
-        "https://www.instagram.com/reel/DY1-aHxzM4I/",
-        "https://www.instagram.com/reel/DZumfjTJ3wd/",
-        "https://www.instagram.com/reel/Dd_dSV1Bjv4/",
-        "https://www.instagram.com/reel/DePKO45JCjx/",
-        "https://www.instagram.com/reel/DdLIZXgDo1T/",
-        /* spare reel: https://www.instagram.com/reel/DdDdK1bDi8u/ */
-      ].map((video) => ({ video, thumb: "" })),
-    },
-    {
       id: "work-saas",
       label: "SaaS",
       title: "SaaS editing",
@@ -179,6 +159,28 @@ export const CONFIG = {
       items: empty(6),
     },
   ] as WorkSection[],
+
+  /* ---------- short-form section: live scrolling reel strip ----------
+     Files live in public/reels: reel-XX-loop.mp4 (short silent loop shown in the strip),
+     reel-XX.mp4 (full video opened on click) and reel-XX.jpg (poster).
+     Previous Instagram links: Dc-uXm_I_8_, DafvGWEpuZ8, DV-9c2AE_lD, DY1-aHxzM4I,
+     DZumfjTJ3wd, Dd_dSV1Bjv4, DePKO45JCjx, DdLIZXgDo1T (spare: DdDdK1bDi8u) */
+  shortForm: {
+    id: "work-short",
+    label: "Short-form",
+    title: "Short-form content",
+    lead: "Reels, Shorts and TikToks cut for retention: hooks, captions, pacing and sound.",
+  },
+  reels: Array.from({ length: 9 }, (_, i) => {
+    const id = `reel-${String(i + 1).padStart(2, "0")}`;
+    return {
+      id,
+      loop: `/reels/${id}-loop.mp4`,
+      full: `/reels/${id}.mp4`,
+      poster: `/reels/${id}.jpg`,
+      title: `Reel ${String(i + 1).padStart(2, "0")}`,
+    };
+  }),
 
   /* ---------- video testimonials (5 slots, vertical) ---------- */
   testimonialsLead: "Short video reviews from clients I’ve edited for.",

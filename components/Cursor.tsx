@@ -24,7 +24,7 @@ export default function Cursor() {
       tx = e.clientX;
       ty = e.clientY;
       const target = e.target as Element | null;
-      cur.classList.toggle("big", !!target?.closest("a,button,.clip,.card,.ruler,label,select"));
+      cur.classList.toggle("big", !!target?.closest("a,button,.clip,.card,.reel,.ruler,label,select"));
     };
     const loop = () => {
       cx += (tx - cx) * 0.22;

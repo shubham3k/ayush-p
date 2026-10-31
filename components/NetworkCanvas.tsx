@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { clamp } from "@/lib/utils";
 
-const COLS = ["91,91,214", "13,148,136", "219,39,119"];
+const COLS = ["138,138,244", "45,212,191", "244,114,182"];
 
 interface Node {
   x: number;
@@ -96,7 +96,7 @@ export default function NetworkCanvas() {
             b = nodes[j],
             d = Math.hypot(a.x - b.x, a.y - b.y);
           if (d < LINK) {
-            c.strokeStyle = `rgba(91,91,214,${(1 - d / LINK) * 0.32})`;
+            c.strokeStyle = `rgba(138,138,244,${(1 - d / LINK) * 0.32})`;
             c.beginPath();
             c.moveTo(a.x, a.y);
             c.lineTo(b.x, b.y);
@@ -109,7 +109,7 @@ export default function NetworkCanvas() {
         // cursor connects to nearby nodes
         const d = Math.hypot(mouse.x - n.x, mouse.y - n.y);
         if (d < 200) {
-          c.strokeStyle = `rgba(219,39,119,${(1 - d / 200) * 0.55})`;
+          c.strokeStyle = `rgba(244,114,182,${(1 - d / 200) * 0.55})`;
           c.beginPath();
           c.moveTo(mouse.x, mouse.y);
           c.lineTo(n.x, n.y);

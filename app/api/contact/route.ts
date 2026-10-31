@@ -25,6 +25,7 @@ export async function POST(req: Request) {
 
   const name = str(body.name, 100);
   const email = str(body.email, 200);
+  const phone = str(body.phone, 30);
   const message = str(body.message, 5000);
   const budget = str(body.budget, 80);
   const timeline = str(body.timeline, 80);
@@ -32,7 +33,13 @@ export async function POST(req: Request) {
     ? body.services.map((s) => str(s, 80)).filter(Boolean).slice(0, 12)
     : [];
 
-  if (!name || !/^\S+@\S+\.\S+$/.test(email) || !message || !services.length) {
+  if (
+    !name ||
+    !/^\S+@\S+\.\S+$/.test(email) ||
+    (phone && !/^\+?[\d\s().-]{7,20}$/.test(phone)) ||
+    !message ||
+    !services.length
+  ) {
     return NextResponse.json({ error: "invalid_fields" }, { status: 400 });
   }
 
@@ -48,6 +55,7 @@ export async function POST(req: Request) {
   const rows: [string, string][] = [
     ["Name", name],
     ["Email", email],
+    ["Phone", phone || "—"],
     ["Services", services.join(", ")],
     ["Budget", budget || "—"],
     ["Timeline", timeline || "—"],

@@ -14,11 +14,16 @@ export default function ContactForm({ config }: { config: Config }) {
     const fd = new FormData(ev.currentTarget);
     const name = String(fd.get("name") ?? "").trim();
     const email = String(fd.get("email") ?? "").trim();
+    const phone = String(fd.get("phone") ?? "").trim();
     const message = String(fd.get("message") ?? "").trim();
     const services = fd.getAll("services").map(String);
 
     if (!name || !/^\S+@\S+\.\S+$/.test(email) || !message || !services.length) {
       setError("Please add your name, a valid email, at least one service and a short message.");
+      return;
+    }
+    if (phone && !/^\+?[\d\s().-]{7,20}$/.test(phone)) {
+      setError("Please enter a valid phone number, or leave it empty.");
       return;
     }
     if (fd.get("_honey")) return; // bot trap
@@ -32,6 +37,7 @@ export default function ContactForm({ config }: { config: Config }) {
         body: JSON.stringify({
           name,
           email,
+          phone,
           services,
           budget: fd.get("budget"),
           timeline: fd.get("timeline"),
@@ -70,6 +76,8 @@ export default function ContactForm({ config }: { config: Config }) {
               <input id="f-email" name="email" type="email" autoComplete="email" required />
             </div>
           </div>
+          <label htmlFor="f-phone">Phone / WhatsApp (optional)</label>
+          <input id="f-phone" name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="+91 98765 43210" />
           <label>What do you need from us?</label>
           <div className="opts">
             {config.services.map((s, i) => (

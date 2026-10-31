@@ -170,21 +170,6 @@ export const CONFIG = {
       variant: "tall",
       items: strip("work", "product", 5, (i) => `Product ${String(i + 1).padStart(2, "0")}`),
     },
-    {
-      id: "testimonials",
-      label: "Video testimonials",
-      title: "Clients, in their own words.",
-      lead: "Short video reviews from clients I’ve edited for.",
-      variant: "tall",
-      // Replace the names/roles below with the real clients (the order matches testimonial-01..04).
-      items: strip(
-        "work",
-        "testimonial",
-        4,
-        (i) => ["Client name", "Client name", "Client name", "Shashwat"][i],
-        () => "Brand / company",
-      ),
-    },
   ] as StripSection[],
 };
 

@@ -53,7 +53,6 @@ export default function Hero({ config }: { config: Config }) {
           <div className="links">
             <a href="#about">About</a>
             <a href="#work-short">Work</a>
-            <a href="#testimonials">Testimonials</a>
             <ThemeToggle />
             <a className="btn" href="#connect">
               Hire me

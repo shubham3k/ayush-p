@@ -10,30 +10,45 @@ export interface Clip {
   link?: string;
 }
 
-export interface WorkItem {
-  video: string;
-  thumb: string;
+export type StripVariant = "tall" | "wide";
+
+export interface StripItem {
+  id: string;
+  loop: string;
+  full: string;
+  poster: string;
+  title: string;
+  caption?: string;
 }
 
-export interface WorkSection {
+export interface StripSection {
   id: string;
   label: string;
   title: string;
   lead: string;
-  v9?: boolean;
-  n: number;
-  c: string;
-  items: WorkItem[];
+  variant: StripVariant;
+  items: StripItem[];
 }
 
-export interface Testimonial {
-  name: string;
-  role: string;
-  video: string;
-  poster: string;
-}
-
-const empty = (n: number): WorkItem[] => Array.from({ length: n }, () => ({ video: "", thumb: "" }));
+/** Builds items for files named <prefix>-01 ... in public/<dir> (see portfolio-assets/compress.sh). */
+const strip = (
+  dir: string,
+  prefix: string,
+  n: number,
+  title: (i: number) => string,
+  caption?: (i: number) => string,
+): StripItem[] =>
+  Array.from({ length: n }, (_, k) => {
+    const id = `${prefix}-${String(k + 1).padStart(2, "0")}`;
+    return {
+      id,
+      loop: `/${dir}/${id}-loop.mp4`,
+      full: `/${dir}/${id}.mp4`,
+      poster: `/${dir}/${id}.jpg`,
+      title: title(k),
+      caption: caption?.(k),
+    };
+  });
 
 export const CONFIG = {
   name: "Ayush Raj Gupta",
@@ -102,18 +117,18 @@ export const CONFIG = {
     { t: 0, s: 3, l: 9, k: "g", label: "Title · Lower third", c: "--a3", link: "work-youtube" },
     { t: 0, s: 26, l: 8, k: "g", label: "Kinetic text", c: "--a3", link: "work-short" },
     { t: 0, s: 44, l: 11, k: "g", label: "CTA end card", c: "--a3", link: "connect" },
-    { t: 1, s: 0, l: 14, k: "g", label: "Motion graphics", c: "--a2", link: "work-saas" },
-    { t: 1, s: 20, l: 12, k: "g", label: "UI callouts", c: "--a2", link: "work-saas" },
+    { t: 1, s: 0, l: 14, k: "g", label: "Motion graphics", c: "--a2", link: "work-youtube" },
+    { t: 1, s: 20, l: 12, k: "g", label: "UI callouts", c: "--a2", link: "work-youtube" },
     { t: 1, s: 38, l: 14, k: "g", label: "Subtitles", c: "--a4", link: "work-short" },
     { t: 2, s: 5, l: 15, k: "v", label: "B-roll · product", c: "--a2", link: "work-product" },
-    { t: 2, s: 24, l: 12, k: "v", label: "Screen capture", c: "--a3", link: "work-saas" },
+    { t: 2, s: 24, l: 12, k: "v", label: "Screen capture", c: "--a3", link: "work-youtube" },
     { t: 2, s: 40, l: 16, k: "v", label: "B-roll · lifestyle", c: "--a4", link: "work-product" },
     { t: 3, s: 0, l: 19, k: "v", label: "Interview A-cam", c: "--accent", link: "work-youtube" },
     { t: 3, s: 19, l: 17, k: "v", label: "Reel · vertical cut", c: "--accent", link: "work-short" },
     { t: 3, s: 36, l: 24, k: "v", label: "Product hero shot", c: "--accent", link: "work-product" },
     { t: 4, s: 0, l: 60, k: "adj", label: "Adjustment layer · Color grade", c: "--a4", link: "work-product" },
     { t: 5, s: 0, l: 36, k: "au", label: "Dialogue · cleaned", c: "--accent", link: "work-youtube" },
-    { t: 5, s: 38, l: 20, k: "au", label: "Voiceover", c: "--accent", link: "work-saas" },
+    { t: 5, s: 38, l: 20, k: "au", label: "Voiceover", c: "--accent", link: "work-youtube" },
     { t: 6, s: 0, l: 60, k: "au", label: "Music bed · ducked", c: "--a2", link: "work-short" },
     { t: 7, s: 3, l: 3, k: "sf", label: "whoosh", c: "--a3" },
     { t: 7, s: 11, l: 3, k: "sf", label: "hit", c: "--a4" },
@@ -126,70 +141,52 @@ export const CONFIG = {
   palette: ["#1d2b3a", "#c9733d", "#e9d8b5", "#5eead4", "#f472b6", "#9999ff"],
   transitions: [19, 36],
 
-  /* ---------- work sections ----------
-     For each slot paste a link in video: YouTube / Vimeo / Google Drive share link / Instagram reel / .mp4
-     thumb: optional image (YouTube links get their thumbnail automatically). */
-  work: [
+  /* ---------- work sections: live, right-to-left scrolling video strips ----------
+     Each strip plays muted loops (<id>-loop.mp4) and opens the full video (<id>.mp4) on click.
+     Files: public/reels (short-form) and public/work (everything else).
+     Previous short-form Instagram links: Dc-uXm_I_8_, DafvGWEpuZ8, DV-9c2AE_lD, DY1-aHxzM4I,
+     DZumfjTJ3wd, Dd_dSV1Bjv4, DePKO45JCjx, DdLIZXgDo1T (spare: DdDdK1bDi8u) */
+  strips: [
     {
-      id: "work-saas",
-      label: "SaaS",
-      title: "SaaS editing",
-      lead: "Product demos, feature launches and explainers with clean UI motion and clear voiceover.",
-      n: 2,
-      c: "--a2",
-      items: empty(4),
+      id: "work-short",
+      label: "Short-form",
+      title: "Short-form content",
+      lead: "Reels, Shorts and TikToks cut for retention: hooks, captions, pacing and sound.",
+      variant: "tall",
+      items: strip("reels", "reel", 9, (i) => `Reel ${String(i + 1).padStart(2, "0")}`),
+    },
+    {
+      id: "work-youtube",
+      label: "YouTube & SaaS",
+      title: "YouTube & SaaS videos",
+      lead: "Long-form and product edits with story structure, clean UI motion, graphics and sound design.",
+      variant: "wide",
+      items: strip("work", "youtube-saas", 4, (i) => `YouTube & SaaS ${String(i + 1).padStart(2, "0")}`),
     },
     {
       id: "work-product",
       label: "Product",
       title: "Product-based content",
       lead: "Ads and showcase videos for products: cinematic B-roll, grade and sound — in 9:16.",
-      v9: true,
-      n: 4,
-      c: "--a4",
-      items: empty(4),
+      variant: "tall",
+      items: strip("work", "product", 5, (i) => `Product ${String(i + 1).padStart(2, "0")}`),
     },
     {
-      id: "work-youtube",
-      label: "YouTube",
-      title: "YouTube format videos",
-      lead: "Long-form edits with story structure, pacing, B-roll, graphics and sound design.",
-      n: 3,
-      c: "--accent",
-      items: empty(6),
+      id: "testimonials",
+      label: "Video testimonials",
+      title: "Clients, in their own words.",
+      lead: "Short video reviews from clients I’ve edited for.",
+      variant: "tall",
+      // Replace the names/roles below with the real clients (the order matches testimonial-01..04).
+      items: strip(
+        "work",
+        "testimonial",
+        4,
+        (i) => ["Client name", "Client name", "Client name", "Shashwat"][i],
+        () => "Brand / company",
+      ),
     },
-  ] as WorkSection[],
-
-  /* ---------- short-form section: live scrolling reel strip ----------
-     Files live in public/reels: reel-XX-loop.mp4 (short silent loop shown in the strip),
-     reel-XX.mp4 (full video opened on click) and reel-XX.jpg (poster).
-     Previous Instagram links: Dc-uXm_I_8_, DafvGWEpuZ8, DV-9c2AE_lD, DY1-aHxzM4I,
-     DZumfjTJ3wd, Dd_dSV1Bjv4, DePKO45JCjx, DdLIZXgDo1T (spare: DdDdK1bDi8u) */
-  shortForm: {
-    id: "work-short",
-    label: "Short-form",
-    title: "Short-form content",
-    lead: "Reels, Shorts and TikToks cut for retention: hooks, captions, pacing and sound.",
-  },
-  reels: Array.from({ length: 9 }, (_, i) => {
-    const id = `reel-${String(i + 1).padStart(2, "0")}`;
-    return {
-      id,
-      loop: `/reels/${id}-loop.mp4`,
-      full: `/reels/${id}.mp4`,
-      poster: `/reels/${id}.jpg`,
-      title: `Reel ${String(i + 1).padStart(2, "0")}`,
-    };
-  }),
-
-  /* ---------- video testimonials (5 slots, vertical) ---------- */
-  testimonialsLead: "Short video reviews from clients I’ve edited for.",
-  testimonials: Array.from({ length: 5 }, () => ({
-    name: "Client name",
-    role: "Brand / company",
-    video: "",
-    poster: "",
-  })) as Testimonial[],
+  ] as StripSection[],
 };
 
 export type Config = typeof CONFIG;

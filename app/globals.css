@@ -162,8 +162,11 @@ footer a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--li
 .reel-track{display:flex;width:max-content;animation:reel-scroll 70s linear infinite}
 .reels:hover .reel-track,.reels:focus-within .reel-track{animation-play-state:paused}
 .reel-set{display:flex;gap:18px;padding-right:18px}
-.reel{position:relative;flex:none;width:clamp(170px,22vw,290px);aspect-ratio:9/16;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--panel);padding:0;transition:transform .25s,border-color .25s,box-shadow .25s}
+.reel{position:relative;flex:none;width:clamp(170px,22vw,290px);aspect-ratio:9/16;display:block;text-align:left;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--panel);padding:0;transition:transform .25s,border-color .25s,box-shadow .25s}
+.reel.wide{width:clamp(280px,34vw,480px);aspect-ratio:16/9}
 .reel:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 14px 40px -18px var(--accent)}
 .reel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.rcap{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.72));color:#fff;pointer-events:none}
+.rcap b{display:block;font-size:14px;letter-spacing:-.01em}.rcap small{font-size:12px;opacity:.8}
 @keyframes reel-scroll{to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.reel-track{animation:none}.reels{overflow-x:auto}}

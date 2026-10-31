@@ -1,12 +1,10 @@
 import { CONFIG } from "@/lib/config";
 import Cursor from "@/components/Cursor";
 import Hero from "@/components/Hero";
-import ReelMarquee from "@/components/ReelMarquee";
+import VideoStrip from "@/components/VideoStrip";
 import About from "@/components/About";
 import Timeline from "@/components/Timeline";
 import Stats from "@/components/Stats";
-import WorkSections from "@/components/WorkSections";
-import Testimonials from "@/components/Testimonials";
 import Connect from "@/components/Connect";
 import Footer from "@/components/Footer";
 import { VideoModalProvider } from "@/components/VideoModal";
@@ -20,9 +18,9 @@ export default function Home() {
         <About config={CONFIG} />
         <Timeline config={CONFIG} />
         <Stats stats={CONFIG.stats} />
-        <ReelMarquee config={CONFIG} />
-        <WorkSections work={CONFIG.work} />
-        <Testimonials lead={CONFIG.testimonialsLead} items={CONFIG.testimonials} />
+        {CONFIG.strips.map((s) => (
+          <VideoStrip key={s.id} section={s} />
+        ))}
       </div>
       <Connect config={CONFIG} />
       <Footer email={CONFIG.email} />

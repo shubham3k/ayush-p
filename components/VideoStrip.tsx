@@ -41,7 +41,7 @@ function StripCard({ item, variant, hidden }: { item: StripItem; variant: string
  * Playback starts when the strip scrolls into view; click a card to watch the full video.
  */
 export default function VideoStrip({ section }: { section: StripSection }) {
-  const { id, label, title, lead, variant, items } = section;
+  const { id, title, lead, variant, items } = section;
   const stripRef = useRef<HTMLDivElement>(null);
 
   // Each half of the track must be wider than the screen, otherwise the loop shows a gap.
@@ -68,7 +68,6 @@ export default function VideoStrip({ section }: { section: StripSection }) {
 
   return (
     <Reveal as="section" className="sec" id={id}>
-      <div className="eyebrow mono">{label}</div>
       <h2>{title}</h2>
       <p className="lead">{lead}</p>
       <div className="reels" ref={stripRef}>

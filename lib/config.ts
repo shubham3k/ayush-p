@@ -23,7 +23,6 @@ export interface StripItem {
 
 export interface StripSection {
   id: string;
-  label: string;
   title: string;
   lead: string;
   variant: StripVariant;
@@ -148,7 +147,6 @@ export const CONFIG = {
   strips: [
     {
       id: "work-short",
-      label: "Short-form",
       title: "Short-form content",
       lead: "Reels, Shorts and TikToks cut for retention: hooks, captions, pacing and sound.",
       variant: "tall",
@@ -156,7 +154,6 @@ export const CONFIG = {
     },
     {
       id: "work-youtube",
-      label: "YouTube & SaaS",
       title: "YouTube & SaaS videos",
       lead: "Long-form and product edits with story structure, clean UI motion, graphics and sound design.",
       variant: "wide",
@@ -164,7 +161,6 @@ export const CONFIG = {
     },
     {
       id: "work-product",
-      label: "Product",
       title: "Product-based content",
       lead: "Ads and showcase videos for products: cinematic B-roll, grade and sound — in 9:16.",
       variant: "tall",

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type CSSProperties } from "react";
 import type { Config } from "@/lib/config";
+import ThemeToggle from "./ThemeToggle";
 
 const COLS = ["--accent", "--a3", "--a2", "--a4"];
 
@@ -53,6 +54,7 @@ export default function Hero({ config }: { config: Config }) {
             <a href="#about">About</a>
             <a href="#work-short">Work</a>
             <a href="#testimonials">Testimonials</a>
+            <ThemeToggle />
             <a className="btn" href="#connect">
               Hire me
             </a>

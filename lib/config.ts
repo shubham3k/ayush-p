@@ -79,8 +79,7 @@ export const CONFIG = {
     ["6+", "Content formats"],
   ] as [string, string][],
 
-  /* Contact form → emailed through FormSubmit (free). */
-  formEndpoint: "https://formsubmit.co/ajax/ayushrajgupta231@gmail.com",
+  /* Contact form → POST /api/contact (app/api/contact/route.ts), which emails `email` above via Resend. */
   budgets: ["Under ₹10k", "₹10k – ₹25k", "₹25k – ₹60k", "₹60k+", "Not sure yet"],
   timelines: ["ASAP (this week)", "Within 2 weeks", "This month", "Flexible"],
   services: [

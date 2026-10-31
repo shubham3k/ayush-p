@@ -26,20 +26,16 @@ export default function ContactForm({ config }: { config: Config }) {
     setStatus("sending");
 
     try {
-      const r = await fetch(config.formEndpoint, {
+      const r = await fetch("/api/contact", {
         method: "POST",
-        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
           email,
-          services: services.join(", "),
+          services,
           budget: fd.get("budget"),
           timeline: fd.get("timeline"),
           message,
-          _subject: `New project enquiry from ${name}`,
-          _replyto: email,
-          _template: "table",
-          _captcha: "false",
         }),
       });
       if (!r.ok) throw new Error(String(r.status));
